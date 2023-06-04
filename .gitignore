@@ -1,4 +1,4 @@
-data/
+
 .ipynb_checkpoints
 .bin
 *.db
@@ -10,9 +10,7 @@ data/
 .venv
 venv
 .idea
-**/artifacts/
-**/models/
-**/mlruns/
+
 
 
 __pycache__/
@@ -23,3 +21,14 @@ __pycache__/
 
 
 .DS_Store
+
+# mlops-zoomcamp generated files by packages
+**/data/
+**/artifacts/
+**/models/
+**/mlruns/
+**/mlflow/
+**/wandb/
+**/output/*.pkl
+**/*.pkl
+**/--*
