@@ -23,7 +23,6 @@ __pycache__/
 .DS_Store
 
 # mlops-zoomcamp generated files by packages
-**/data/
 **/artifacts/
 **/models/
 **/mlruns/
