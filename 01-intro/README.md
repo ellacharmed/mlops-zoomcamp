@@ -169,6 +169,5 @@ Did you take notes? Add them here:
 * [Notes for Week1 by Bhagabat](https://github.com/BPrasad123/MLOps_Zoomcamp/tree/main/Week1)
 * [What is MLOps? - Storytime by Pathik Ghugare](https://github.com/pathikg/MLOps-Zoomcamp-DataTalks/blob/main/week-01-introduction/MLOps-Introduction.md)
 * [Module 1 Notes by Stephen Barrie](https://stephen137.github.io/posts/MLOps_Zoomcamp_Week_1/MLOps_Zoomcamp_Week_1.html)
-* [How to move location of WSL distro](https://ellacharmed.github.io/today-I-learned/2_Fundamentals/move_wsl_distro.html)
-* [How to install and configure Docker to use non-default install location in Windows](https://ellacharmed.github.io/today-I-learned/2_Fundamentals/move_docker_distro_location.html)
+* [Module 1 Notes - MacOS + Pycharm by Hongfan (Amber)](https://github.com/Muhongfan/MLops/blob/main/01-intro/README.md)
 * Send a PR, add your notes above this line
