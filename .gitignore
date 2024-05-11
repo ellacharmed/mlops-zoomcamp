@@ -1,4 +1,4 @@
-data/
+
 .ipynb_checkpoints
 .bin
 *.db
@@ -10,11 +10,24 @@ data/
 .venv
 venv
 .idea
-**/artifacts/
-**/models/
+
 
 __pycache__/
 **.env
 **.terraform/
 **.terraform.lock*
 **terraform.tfstate*
+
+
+.DS_Store
+
+# mlops-zoomcamp generated files by packages
+**/data/
+**/artifacts/
+**/models/
+**/mlruns/
+**/mlflow/
+**/wandb/
+**/output/*.pkl
+**/*.pkl
+**/--*
