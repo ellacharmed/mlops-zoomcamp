@@ -9,11 +9,21 @@ dependencies:
   - ipykernel
   - jupyter
   - pandas>=2.2
-  - pyarrow
+  # - pyarrow (mlflow pre-req)
   - polars
   - seaborn
   - matplotlib
   - plotly
-  - scikit-learn
+  - scikit-learn<1.5
   - pip
-  
+  # module-02
+  - setuptools==59.8.0
+  - scikit-learn
+  - hyperopt
+  - xgboost
+  - fastparquet
+  - boto3
+  - pip:
+    # non-pip installs picked up older 1.2.0 version
+    - mlflow 
+    

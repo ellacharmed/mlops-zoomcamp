@@ -10,7 +10,7 @@
 venv
 .idea
 
-
+**data/
 
 __pycache__/
 **.env
