@@ -14,16 +14,15 @@ dependencies:
   - seaborn
   - matplotlib
   - plotly
-  - scikit-learn<1.5
+  - scikit-learn>0.24.1,<1.5
   - pip
   # module-02
   - setuptools==59.8.0
-  - scikit-learn
   - hyperopt
   - xgboost
   - fastparquet
   - boto3
   - pip:
     # non-pip installs picked up older 1.2.0 version
-    - mlflow 
+    - mlflow
     
