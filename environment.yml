@@ -15,6 +15,7 @@ dependencies:
   - matplotlib
   - plotly
   - scikit-learn>0.24.1,<1.5
+  - scikit-learn>0.24.1,<1.5
   - pip
   # module-02
   - setuptools==59.8.0
@@ -22,7 +23,8 @@ dependencies:
   - xgboost
   - fastparquet
   - boto3
+  - awscli
   - pip:
     # non-pip installs picked up older 1.2.0 version
-    - mlflow
+    - mlflow==2.12.2
     
