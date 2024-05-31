@@ -70,10 +70,8 @@ Mage simplifies MLOps by providing a unified platform for data pipelining, model
 
 ---
 
-# Example data pipeline
+## Example data pipeline
 
-
-> [Click image play video](https://youtu.be/7hKrQmoARD8)
 
 If you haven’t setup your project yet, please refer to the [quickstart guide](../README.md#Quickstart) or follow these steps:
 
@@ -107,13 +105,20 @@ If you haven’t setup your project yet, please refer to the [quickstart guide](
 
 ## Run example pipeline
 
+Be sure not to skip this essential step. It is to determine the Mage container is build as expected and Mage can run with no issues.
+
+[![](https://markdown-videos-api.jorgenkh.no/youtube/7hKrQmoARD8)](https://youtu.be/7hKrQmoARD8&list=PL_ItKjYd0DsiUpEzPQqYM04O6jQTkCjTN&index=1)
+
 1. Open [`http://localhost:6789`](http://localhost:6789) in your browser.
 
 1. In the top left corner of the screen next to the Mage logo and **`mlops`** project name,
    click the project selector dropdown and choose the **`unit_0_setup`** option.
 
 1. Click on the pipeline named **`example_pipeline`**.
+
 1. Click on the button labeled **`Run @once`**.
+
+1. Check in Terminal or your repo folder back in vscode. You should see the expected output file named `titanic_clean.csv` in repo path `mage-mlops/`. I made edits to the `filepath` var, to make the filesystem tidy and outputs to the `data` subfolder by editing the line to `filepath = 'data/titanic_clean.csv'`.
 
 ## Resources
 
