@@ -1,63 +1,130 @@
 # 3.1 Data preparation: ETL and feature engineering
 
-# Ingestion
+## Ingestion
 
-## 3.1.1 Creating a new project
+Our demo project utilises sub-projects `unit_0*` .. `unit_5*` to build up our orchestration from initial setup to deployment.
 
-TODO: describe the context
+### 3.1.1 Creating a new Mage project
 
-[Video](https://youtu.be/7hKrQmoARD8)
+[![](https://markdown-videos-api.jorgenkh.no/youtube/7hKrQmoARD8)](https://youtu.be/7hKrQmoARD8&list=PL_ItKjYd0DsiUpEzPQqYM04O6jQTkCjTN&index=2)
 
-Opening a text editor:
 
-* Go to the command center (At the top)
-* Type "text editor"
+1. Opening a text editor:
 
-## 3.1.2 Data preparation - Ingestion
+   - Go to the command center (At the top)
+   - Type "text editor"
 
-TODO: describe the context
+1. Right click at the top level `mlops` Main project and select `New Mage Project`.
 
-[Video](https://youtu.be/Ttfkry1QQD4)
+1. In the dialog, input `unit_1_data_preparation`, click `Create Project` and close the Text Editor. Outcome is new folder in the Explorer Tree and new line in the **Projects list** drop down.
 
-Code: 
+1. Register this project:
+
+   - Go to the top level `mlops` Mage project
+   - Click Settings. Breadcrumb should now show `mlops > uit_1_data_preparation > Settings`
+   - Click on `+ Register` button on the right. This would generate a randomly named project. 
+   - Edit this name to the one we created, input a **Description** if desired
+   - When you enable this as the `Currently selected project`, any previous active projects would be unselected.
+   - Click on `Save Settings` button and return to Project's Overview screen.
+
+
+### 3.1.2 Data preparation - Ingestion
+
+[![](https://markdown-videos-api.jorgenkh.no/youtube/1lSOdTpoRug)](https://youtu.be/1lSOdTpoRug&list=PL_ItKjYd0DsiUpEzPQqYM04O6jQTkCjTN&index=3)
+
+
+1. Copy code from:
+
 - [`ingest.py`](https://github.com/mage-ai/mlops/blob/master/mlops/unit_3_observability/data_loaders/ingest.py)
 
-
-## 3.1.3 Utility helper functions
-
-TODO: describe the context
-
-[Video](https://youtu.be/FBh3P19lXj4)
+1. This first ingest block pulls in raw data from the Yellow service taxi file for the first 2 months of 2024.
 
 
-Code
+### 3.1.3 Utility helper functions
+
+We'll be utilising helper functions so we follow DRY (Don't Repeat Yourself) guidelines
+
+1. Copy code from:
 
 - [`cleaning.py`](https://github.com/mage-ai/mlops/blob/master/mlops/utils/data_preparation/cleaning.py)
+- [`feature_engineering.py`](https://github.com/mage-ai/mlops/blob/master/mlops/utils/data_preparation/feature_engineering.py)
 - [`feature_selector.py`](https://github.com/mage-ai/mlops/blob/master/mlops/utils/data_preparation/feature_selector.py)
 - [`splitters.py`](https://github.com/mage-ai/mlops/blob/master/mlops/utils/data_preparation/splitters.py)
 
 
+[![](https://markdown-videos-api.jorgenkh.no/youtube/FBh3P19lXj4)](https://youtu.be/FBh3P19lXj4&list=PL_ItKjYd0DsiUpEzPQqYM04O6jQTkCjTN&index=4)
+
+Back in our `data_preparation` pipeline,
+
+1. Create a time series chart.
+   - Choose a date time column.
+   - Do a count of each row per pickup date.
+
+1. Add a few more pre-templated charts.
+   - See the missing values.
+   - See the unique values.
+   - See the most frequent values.
+
+1. Input these `global variables` in the Pipeline --> Edit screen, don't forget to press ENTER so the vars turn green to show it has been save since there's no SAVE button
+
+   - split_on_feature: lpep_pickup_datetime
+   - split_on_feature_value: 2024-02-01
+   - target: duration
 
 
-## 2. Data Preparation
+## Data Preparation
 
-### Videos
+### 3.1.4 Data preparation block
 
-1. [Data preparation block](https://youtu.be/TcTMVn3BxeY)
-1. [Visualize prepared data](https://youtu.be/j0Hfaoc5wRY)
+[![](https://markdown-videos-api.jorgenkh.no/youtube/TcTMVn3BxeY)](https://youtu.be/TcTMVn3BxeY&list=PL_ItKjYd0DsiUpEzPQqYM04O6jQTkCjTN&index=5)
+
+Before we add a Transform Block, we'll add some more utility functions to help us perform these steps:
+
+- clean our dataset:
+  - set datetime from `str` to `pd.datetime`
+  - calculate `duration` in minutes by taking the timedelta of dropoff and pickup
+  - remove the outliers
+  - make the `PULocationID` and `DOLocationID` as categorical data types
+- feature-engineer the `PULocationID` and `DOLocationID` into `PU_DO`
+- split our dataset into train and val according to the `split_on_feature_value` = `2024-02-01` set in Global Variables
+- set our target for predictions as the `duration` column
+
+
+### 3.1.5 Visualize prepared data
+
+[![](https://markdown-videos-api.jorgenkh.no/youtube/j0Hfaoc5wRY)](https://youtu.be/j0Hfaoc5wRY&list=PL_ItKjYd0DsiUpEzPQqYM04O6jQTkCjTN&index=6)
+
+Mage has some EDA features from built-in charts code. 
+
+- create a Time Series Bar chart, use code added as per [FAQ](https://docs.google.com/document/d/12TlBfhIiKtyBv8RnsoJR6F72bkPDGEvPOItJIxaEzE0/edit#heading=h.uhb09q64puph)
+
+  > import numpy as np
+  >
+  > df['lpep_pickup_epoch'] = df['lpep_pickup_datetime'].astype(np.int64) // 10**9
+
+- create various other charts from the drop down, use the `custom histogram code` linked below
 
 ### Code
 
--   [`prepare.py`](https://github.com/mage-ai/mlops/blob/master/mlops/unit_3_observability/transformers/prepare.py)
+-  [`prepare.py`](https://github.com/mage-ai/mlops/blob/master/mlops/unit_3_observability/transformers/prepare.py)
+-  [`custom histogram code`](https://github.com/mage-ai/mlops/blob/master/mlops/unit_3_observability/charts/prepare_histogram_u9.py)
 
 ---
 
-## 3. Build training sets
+## Build training sets
 
-### Videos
 
-1. [Encoding functions](https://youtu.be/z8erMV-6joY)
-1. [Training set block](https://youtu.be/qSzcfSHjJoY)
+### 3.1.6 Encoding functions
+[![](https://markdown-videos-api.jorgenkh.no/youtube/z8erMV-6joY)](https://youtu.be/z8erMV-6joY&list=PL_ItKjYd0DsiUpEzPQqYM04O6jQTkCjTN&index=7)
+
+- using DictVectorizer to encode our categorical feature-engineered `PU_DO` into a sparse matrix, just like in module-01 Intro.
+
+### 3.1.7 Training set block
+
+[![](https://markdown-videos-api.jorgenkh.no/youtube/qSzcfSHjJoY)](https://youtu.be/qSzcfSHjJoY&list=PL_ItKjYd0DsiUpEzPQqYM04O6jQTkCjTN&index=8)
+
+- in this `build` Data Exporter block, we are finally vectorizing our selected features using DictVectorizer and splitting into `_train`,  `_val`, for the `X` and `y` datasets 
+- the next pipeline we will train with sklearn using Linear Regression.
 
 ### Code
 
@@ -66,11 +133,14 @@ Code
 
 ---
 
-## 4. Data validations using built-in testing framework
+## Data validations using built-in testing framework
 
-### Videos
 
-1. [Writing data validations](https://youtu.be/tYPAl4Q8kpw)
+### 3.1.8 Writing data validations
+[![](https://markdown-videos-api.jorgenkh.no/youtube/tYPAl4Q8kpw)](https://youtu.be/tYPAl4Q8kpw&list=PL_ItKjYd0DsiUpEzPQqYM04O6jQTkCjTN&index=9)
+
+- we can also write unit tests in our blocks
+- in this demo, the logic is using hardcoded values to validate the expected shape of our returned datasets ie the number of rows and columns
 
 ### Code
 
