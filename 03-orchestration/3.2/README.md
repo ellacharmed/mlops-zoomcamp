@@ -105,13 +105,19 @@
 
 - after previous block runs successfully, we can now train our dataset
 - FIXME: is it an issue that the dynamic outputs from Exporter block is not showing the dynamic children outputs i.e output0-output4 when we're have 2 models in our custom `load_model.py`?
-- FIXME: can run individual blocks from data_load, transformer, export. But if I click on the export block to "execute with all upstream blocks" I get this error
+
+![](../../images/3.2.6%20dynamic%20output%20differences.png)
+
+
+- can run individual blocks from data_load, transformer, export. But if I click on the export block to "execute with all upstream blocks" I get this error
+  - workaround: don't execute pipeline end-to-end from Export block and "execute with all upstream blocks", use Triggers and `run@once` and it will be successfully `completed` 
 
 ```bash
 RuntimeError: asyncio.run() cannot be called from a running event loop
 ```
 
-![](../../images/3.2.6%20dynamic%20output%20differences.png)
+![](../../images/3.2.6%20run@once%20completes.png)
+
 
 ### Code
 
