@@ -91,6 +91,7 @@
 ![](../../images/3.2.5%20global%20vars%20panel.png)
 
 - at the end of this video, the Tree looks like
+
 ![](../../images/3.2.5%20transformer%20connections.png)
 
 
@@ -104,7 +105,7 @@
 
 - after previous block runs successfully, we can now train our dataset
 - FIXME: is it an issue that the dynamic outputs from Exporter block is not showing the dynamic children outputs i.e output0-output4 when we're have 2 models in our custom `load_model.py`?
-- FIXME: can run individual blocks from data_load, transforer, export. But if I click on the export block to "execute with all upstream blocks" I get this error
+- FIXME: can run individual blocks from data_load, transformer, export. But if I click on the export block to "execute with all upstream blocks" I get this error
 
 ```bash
 RuntimeError: asyncio.run() cannot be called from a running event loop
