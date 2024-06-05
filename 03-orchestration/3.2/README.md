@@ -1,9 +1,8 @@
 # 3.2 Training: sklearn and XGBoost models
 
-
 ## Training pipeline for sklearn models
 
-### 3.2.1 Reusable training set
+## 3.2.1 Reusable training set
 
 [![](https://markdown-videos-api.jorgenkh.no/youtube/KP68DuJnk4Q)](https://youtu.be/KP68DuJnk4Q&list=PL_ItKjYd0DsiUpEzPQqYM04O6jQTkCjTN&index=10)
 
@@ -21,8 +20,9 @@
     build:
         partitions: 1
     ```
+- can also remove the xgboost portions until we get to the next Section
 
-### 3.2.2 Create sklearn Pipeline
+## 3.2.2 Create sklearn Pipeline
 
 [![](https://markdown-videos-api.jorgenkh.no/youtube/CbHaZcq_uGo)](https://youtu.be/CbHaZcq_uGo&list=PL_ItKjYd0DsiUpEzPQqYM04O6jQTkCjTN&index=11)
 
@@ -30,33 +30,43 @@
 - create our first block to add the above GDP
 
 
-### 3.2.3 Load models
+## 3.2.3 Load models
 
 [![](https://markdown-videos-api.jorgenkh.no/youtube/zsMHFq2C978)](https://youtu.be/zsMHFq2C978&list=PL_ItKjYd0DsiUpEzPQqYM04O6jQTkCjTN&index=12)
 
-- create a `Custom` block and set it to dynamic as it can variable create 2 models or 6 models
+- create a `Custom` block and set it to dynamic as it can variable create 2 models up to 6 models 
+  - by editing this line, to add or remove number of models:
+  ```python
+  'models', 'linear_model.LinearRegression,linear_model.Lasso'
+  ```
+  - once you're comfortable with Global Variables, this line can also be edited to use vars
 - make it `Dynamic` from the `more actions` menu
 - don't forget to add notes if necessary using Markdown blocks
 
+### Code
 
-### 3.2.4 Utility helper functions
+- [`custom/load_models.py` block](https://github.com/mage-ai/mlops/blob/master/mlops/unit_3_observability/custom/load_models.py): load sklearn models dynamically
+- [markdown block for notes](https://github.com/mage-ai/mlops/blob/master/mlops/unit_3_observability/markdowns/dynamic_block_info.md)
+
+
+## 3.2.4 Utility helper functions
 
 [![](https://markdown-videos-api.jorgenkh.no/youtube/fZnxDhtPxYo)](https://youtu.be/fZnxDhtPxYo&list=PL_ItKjYd0DsiUpEzPQqYM04O6jQTkCjTN&index=13)
 
 - create a Transformer block, name it `hyperparameter_tuning/sklearn`
-- before we can run this block however, it depends on some utilities, let's create those first
+- before we can run this block however, as it depends on some utilities, let's create those first
 - in `mlops/utils`, copy+paste the following code blocks / files
 
 ### Code
 
-> [!TIP]
+> [!WARNING]
 >
-> Any code in `mlops/utils` that is in a subfolder need an empty `__init__.py` file so the code is picked up by `import` statements
+> Any code in `mlops/utils` that is in a subfolder needs an empty `__init__.py` file so the code is picked up by `import` statements
 
 -   [`utils/hyperparameters/shared.py`](https://github.com/mage-ai/mlops/blob/master/mlops/utils/hyperparameters/shared.py)
 -   [`utils/models/sklearn.py`](https://github.com/mage-ai/mlops/blob/master/mlops/utils/models/sklearn.py)
 
-### 3.2.5 Hyperparameter tuning
+## 3.2.5 Hyperparameter tuning
 
 [![](https://markdown-videos-api.jorgenkh.no/youtube/zfBB4KoZ7TM)](https://youtu.be/zfBB4KoZ7TM&list=PL_ItKjYd0DsiUpEzPQqYM04O6jQTkCjTN&index=14)
 
@@ -88,13 +98,21 @@
 
 -   [`transformers/hyperparameter_tuning/sklearn.py`](https://github.com/mage-ai/mlops/blob/master/mlops/unit_3_observability/transformers/hyperparameter_tuning/sklearn.py)
 
-### 3.2.6 Train sklearn model
+## 3.2.6 Train sklearn model
 
-[![](https://markdown-videos-api.jorgenkh.no/youtube/P7PtegUFk3k)](https://youtu.be/P7PtegUFk3k&list=PL_ItKjYd0DsiUpEzPQqYM04O6jQTkCjTN&index=14)
+[![](https://markdown-videos-api.jorgenkh.no/youtube/P7PtegUFk3k)](https://youtu.be/P7PtegUFk3k&list=PL_ItKjYd0DsiUpEzPQqYM04O6jQTkCjTN&index=15)
+
+- after previous block runs successfully, we can now train our dataset
+- FIXME: is it an issue that the dynamic outputs from Exporter block is not showing the dynamic children outputs i.e output0-output4 when we're have 2 models in our custom `load_model.py`?
+- FIXME: can run individual blocks from data_load, transforer, export. But if I click on the export block to "execute with all upstream blocks" I get this error
+
+```bash
+RuntimeError: asyncio.run() cannot be called from a running event loop
+```
+
+![](../../images/3.2.6%20dynamic%20output%20differences.png)
 
 ### Code
-
--   [`custom/load_models.py` block](https://github.com/mage-ai/mlops/blob/master/mlops/unit_3_observability/custom/load_models.py): load sklearn models dynamically
 
 -   [`data_exporters/sklearn.py`](https://github.com/mage-ai/mlops/blob/master/mlops/unit_3_observability/data_exporters/sklearn.py)
 
@@ -103,10 +121,14 @@
 
 ## Training pipeline for XGBoost model
 
-### Videos
+### 3.2.7 Hyperparameter tuning on xgboost
 
-1. [Hyperparameter tuning](https://youtu.be/K_Z2Lm1Cyu4)
-1. [Train XGBoost model](https://youtu.be/Y2B-ivm7Mug)
+[![](https://markdown-videos-api.jorgenkh.no/youtube/K_Z2Lm1Cyu4)](https://youtu.be/K_Z2Lm1Cyu4&list=PL_ItKjYd0DsiUpEzPQqYM04O6jQTkCjTN&index=16)
+
+
+### 3.2.8 Train XGBoost model
+
+[![](https://markdown-videos-api.jorgenkh.no/youtube/Y2B-ivm7Mug)](https://youtu.be/Y2B-ivm7Mug&list=PL_ItKjYd0DsiUpEzPQqYM04O6jQTkCjTN&index=17)
 
 ### Code
 

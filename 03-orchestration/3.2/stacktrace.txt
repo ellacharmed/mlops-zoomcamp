@@ -1,0 +1,71 @@
+---------------------------------------------------------------------------
+
+RuntimeError                              Traceback (most recent call last)
+File /usr/local/lib/python3.10/site-packages/mage_ai/data_preparation/models/block/global_data_product/__init__.py:52, in GlobalDataProductBlock._execute_block(self, outputs_from_input_vars, from_notebook, global_vars, logger, logging_tags, **kwargs)
+     48 from mage_ai.orchestration.triggers import global_data_product as trigger
+     50 global_data_product = self.get_global_data_product()
+---> 52 pipeline_run = trigger.trigger_and_check_status(
+     53     global_data_product,
+     54     block=self,
+     55     from_notebook=from_notebook,
+     56     logger=logger,
+     57     logging_tags=logging_tags,
+     58     poll_interval=30,
+     59     remote_blocks=global_vars.get('remote_blocks'),
+     60     variables=global_vars.get('variables') if global_vars else None,
+     61 )
+     63 if pipeline_run and pipeline_run.pipeline:
+     64     pipeline = pipeline_run.pipeline
+File /usr/local/lib/python3.10/site-packages/mage_ai/orchestration/db/__init__.py:158, in safe_db_query.<locals>.func_with_rollback(*args, **kwargs)
+    156 while True:
+    157     try:
+--> 158         return func(*args, **kwargs)
+    159     except (
+    160         sqlalchemy.exc.OperationalError,
+    161         sqlalchemy.exc.PendingRollbackError,
+    162         sqlalchemy.exc.InternalError,
+    163     ) as e:
+    164         db_connection.session.rollback()
+File /usr/local/lib/python3.10/site-packages/mage_ai/orchestration/triggers/global_data_product.py:173, in trigger_and_check_status(global_data_product, variables, block, check_status, error_on_failure, from_notebook, logger, logging_tags, poll_interval, poll_timeout, round_number, verbose, should_schedule, remote_blocks)
+    170 tries = 0
+    172 if block and not from_notebook:
+--> 173     __check_block_runs(
+    174         global_data_product,
+    175         block,
+    176         logger=logger,
+    177         logging_tags=logging_tags,
+    178     )
+    180 poll_start = datetime.utcnow().replace(tzinfo=timezone.utc)
+    181 while True:
+File /usr/local/lib/python3.10/site-packages/mage_ai/orchestration/db/__init__.py:158, in safe_db_query.<locals>.func_with_rollback(*args, **kwargs)
+    156 while True:
+    157     try:
+--> 158         return func(*args, **kwargs)
+    159     except (
+    160         sqlalchemy.exc.OperationalError,
+    161         sqlalchemy.exc.PendingRollbackError,
+    162         sqlalchemy.exc.InternalError,
+    163     ) as e:
+    164         db_connection.session.rollback()
+File /usr/local/lib/python3.10/site-packages/mage_ai/orchestration/triggers/global_data_product.py:61, in __check_block_runs(global_data_product, block, logger, logging_tags)
+     52 async def __get_pipelines(pipeline_uuids_and_repo_path=pipeline_uuids_and_repo_path):
+     53     return await asyncio.gather(
+     54         *[Pipeline.load_metadata(
+     55             uuid,
+     58         ) for uuid, repo_path in pipeline_uuids_and_repo_path],
+     59     )
+---> 61 pipeline_dicts = asyncio.run(__get_pipelines())
+     63 block_uuids = []
+     64 for pipeline_dict in pipeline_dicts:
+File /usr/local/lib/python3.10/asyncio/runners.py:33, in run(main, debug)
+      9 """Execute the coroutine and return the result.
+     10 
+     11 This function runs the passed coroutine, taking care of
+     30     asyncio.run(main())
+     31 """
+     32 if events._get_running_loop() is not None:
+---> 33     raise RuntimeError(
+     34         "asyncio.run() cannot be called from a running event loop")
+     36 if not coroutines.iscoroutine(main):
+     37     raise ValueError("a coroutine was expected, got {!r}".format(main))
+RuntimeError: asyncio.run() cannot be called from a running event loop
