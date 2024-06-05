@@ -104,7 +104,8 @@
 [![](https://markdown-videos-api.jorgenkh.no/youtube/P7PtegUFk3k)](https://youtu.be/P7PtegUFk3k&list=PL_ItKjYd0DsiUpEzPQqYM04O6jQTkCjTN&index=15)
 
 - after previous block runs successfully, we can now train our dataset
-- FIXME: is it an issue that the dynamic outputs from Exporter block is not showing the dynamic children outputs i.e output0-output4 when we're have 2 models in our custom `load_model.py`?
+- is it an issue that the dynamic outputs from Exporter block is not showing the dynamic children outputs i.e output0-output4 when we're have 2 models in our custom `load_model.py`?
+  - [workaround-watch video](https://datatalks-club.slack.com/archives/C02R98X7DS9/p1717570478678679?thread_ts=1717568352.984309&cid=C02R98X7DS9): reload the Pipeline again to see all dynamic children as outputs
 
 ![](../../images/3.2.6%20dynamic%20output%20differences.png)
 
