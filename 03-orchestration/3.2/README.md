@@ -110,7 +110,7 @@
 
 
 - can run individual blocks from data_load, transformer, export. But if I click on the export block to "execute with all upstream blocks" I get this error
-  - workaround: don't execute pipeline end-to-end from Export block and "execute with all upstream blocks", use Triggers and `run@once` and it will be successfully `completed` 
+  - [workaround per @Tommy](https://datatalks-club.slack.com/archives/C02R98X7DS9/p1717570579430159?thread_ts=1717568352.984309&cid=C02R98X7DS9): don't execute pipeline end-to-end from Export block and "execute with all upstream blocks", use Triggers instead and `run@once` and it will be successfully `completed` 
 
 ```bash
 RuntimeError: asyncio.run() cannot be called from a running event loop
