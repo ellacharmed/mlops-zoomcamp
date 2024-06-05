@@ -2,7 +2,9 @@
 
 ## Ingestion
 
-Our demo project utilises sub-projects `unit_0*` .. `unit_5*` to build up our orchestration from initial setup to deployment.
+Our demo `mlops` project utilises sub-projects `unit_0*` .. `unit_5*` to build up our orchestration from initial setup to deployment. See [Resources](#resources) for documentation on **Multiverse-projects**.
+
+The sub-projects are isolated environments (since we can only `register` one project at a time to be `active`). So unit_2 has no visibility of unit_3 files.
 
 ### 3.1.1 Creating a new Mage project
 
@@ -12,6 +14,7 @@ Our demo project utilises sub-projects `unit_0*` .. `unit_5*` to build up our or
 1. Opening a text editor:
 
    - Go to the command center (At the top)
+   - Instructor (Tommy) uses MacOS (I presume), so shortcut key is `CMD+period`. On Windows, the equivalent is `CTRL+WIN+period`
    - Type "text editor"
 
 1. Right click at the top level `mlops` Main project and select `New Mage Project`.
@@ -21,7 +24,7 @@ Our demo project utilises sub-projects `unit_0*` .. `unit_5*` to build up our or
 1. Register this project:
 
    - Go to the top level `mlops` Mage project
-   - Click Settings. Breadcrumb should now show `mlops > uit_1_data_preparation > Settings`
+   - Click Settings. Breadcrumb should now show `mlops > unit_1_data_preparation > Settings`
    - Click on `+ Register` button on the right. This would generate a randomly named project. 
    - Edit this name to the one we created, input a **Description** if desired
    - When you enable this as the `Currently selected project`, any previous active projects would be unselected.
@@ -35,14 +38,24 @@ Our demo project utilises sub-projects `unit_0*` .. `unit_5*` to build up our or
 
 1. Copy code from:
 
-- [`ingest.py`](https://github.com/mage-ai/mlops/blob/master/mlops/unit_3_observability/data_loaders/ingest.py)
+   - [`ingest.py`](https://github.com/mage-ai/mlops/blob/master/mlops/unit_3_observability/data_loaders/ingest.py)
 
-1. This first ingest block pulls in raw data from the Yellow service taxi file for the first 2 months of 2024.
+1. This first ingest block pulls in raw data from the Yellow service taxi file for the first 2 months of 2024. 
+   - *note*: URI is to Mage's dataset's repo, not NYC taxi website; 
+   - adjust accordingly for homework
+
+1. Click on the play button (or `CMD/CTRL+Enter`) to run the block. 
+
+1. You can also run blocks from the Tree view when you right-click on them.
 
 
 ### 3.1.3 Utility helper functions
 
-We'll be utilising helper functions so we follow DRY (Don't Repeat Yourself) guidelines
+We'll be utilising helper functions so we follow DRY (Don't Repeat Yourself) guidelines. 
+
+> [!CAUTION]
+> 
+> There only need be ONE `mlops/utils`; not individual `mlops/unit_#_sub_project/utils`
 
 1. Copy code from:
 
@@ -94,7 +107,7 @@ Before we add a Transform Block, we'll add some more utility functions to help u
 
 [![](https://markdown-videos-api.jorgenkh.no/youtube/j0Hfaoc5wRY)](https://youtu.be/j0Hfaoc5wRY&list=PL_ItKjYd0DsiUpEzPQqYM04O6jQTkCjTN&index=6)
 
-Mage has some EDA features from built-in charts code. 
+Mage has some built-in EDA features from `Add Charts` button. 
 
 - create a Time Series Bar chart, use code added as per [FAQ](https://docs.google.com/document/d/12TlBfhIiKtyBv8RnsoJR6F72bkPDGEvPOItJIxaEzE0/edit#heading=h.uhb09q64puph)
 
@@ -102,7 +115,7 @@ Mage has some EDA features from built-in charts code.
   >
   > df['lpep_pickup_epoch'] = df['lpep_pickup_datetime'].astype(np.int64) // 10**9
 
-- create various other charts from the drop down, use the `custom histogram code` linked below
+- create various other charts from the drop down as per video, use the `custom histogram code` linked below
 
 ### Code
 
@@ -124,7 +137,7 @@ Mage has some EDA features from built-in charts code.
 [![](https://markdown-videos-api.jorgenkh.no/youtube/qSzcfSHjJoY)](https://youtu.be/qSzcfSHjJoY&list=PL_ItKjYd0DsiUpEzPQqYM04O6jQTkCjTN&index=8)
 
 - in this `build` Data Exporter block, we are finally vectorizing our selected features using DictVectorizer and splitting into `_train`,  `_val`, for the `X` and `y` datasets 
-- the next pipeline we will train with sklearn using Linear Regression.
+- in the next pipeline we will train with sklearn using Linear Regression.
 
 ### Code
 
@@ -156,6 +169,8 @@ Mage has some EDA features from built-in charts code.
 ---
 
 ## Resources
+
+1. [Multiverse Projects](https://docs.mage.ai/platform/projects/management)
 
 1. [Global Data Products](https://docs.mage.ai/orchestration/global-data-products/overview)
 

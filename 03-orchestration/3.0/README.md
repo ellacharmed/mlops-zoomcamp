@@ -116,7 +116,7 @@ Be sure not to skip this essential step. It is to determine the Mage container i
 
 1. Click on the pipeline named **`example_pipeline`**.
 
-1. Click on the button labeled **`Run @once`**.
+1. Click on the button labeled **`Run@once`**.
 
 1. Check in Terminal or your repo folder back in vscode. You should see the expected output file named `titanic_clean.csv` in repo path `mage-mlops/`. I made edits to the `filepath` var, to make the filesystem tidy and outputs to the `data` subfolder by editing the line to `filepath = 'data/titanic_clean.csv'`.
 
