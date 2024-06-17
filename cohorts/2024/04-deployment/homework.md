@@ -15,10 +15,11 @@ Run this notebook for the March 2023 data.
 What's the standard deviation of the predicted duration for this dataset?
 
 * 1.24
-* 6.24
+* **6.24**
 * 12.28
 * 18.28
 
+### A1: `6.24`
 
 ## Q2. Preparing the output
 
@@ -48,11 +49,12 @@ What's the size of the output file?
 * 36M
 * 46M
 * 56M
-* 66M
+* **66M**
 
 __Note:__ Make sure you use the snippet above for saving the file. It should contain only these two columns. For this question, don't change the
 dtypes of the columns and use `pyarrow`, not `fastparquet`. 
 
+### A2: `66M`
 
 ## Q3. Creating the scoring script
 
@@ -60,20 +62,19 @@ Now let's turn the notebook into a script.
 
 Which command you need to execute for that?
 
+### A3: `jupyter nbconvert --to script starter.ipynb`
+
 
 ## Q4. Virtual environment
 
 Now let's put everything into a virtual environment. We'll use pipenv for that.
 
-Install all the required libraries. Pay attention to the Scikit-Learn version: it should be the same as in the starter
-notebook.
+Install all the required libraries. Pay attention to the Scikit-Learn version: it should be the same as in the starter notebook.
 
-After installing the libraries, pipenv creates two files: `Pipfile`
-and `Pipfile.lock`. The `Pipfile.lock` file keeps the hashes of the
-dependencies we use for the virtual env.
+After installing the libraries, pipenv creates two files: `Pipfile` and `Pipfile.lock`. The `Pipfile.lock` file keeps the hashes of the dependencies we use for the virtual env.
 
 What's the first hash for the Scikit-Learn dependency?
-
+### A4: `057b991ac64b3e75c9c04b5f9395eaf19a6179244c089afdebaad98264bff37c`
 
 ## Q5. Parametrize the script
 
@@ -85,12 +86,13 @@ Run the script for April 2023.
 What's the mean predicted duration? 
 
 * 7.29
-* 14.29
+* **14.29**
 * 21.29
 * 28.29
 
 Hint: just add a print statement to your script.
 
+### A5: `14.29`
 
 ## Q6. Docker container 
 
@@ -132,6 +134,7 @@ for May 2023?
 * 14.24
 * 21.19
 
+### A6: `0.19`
 
 ## Bonus: upload the result to the cloud (Not graded)
 
@@ -148,6 +151,8 @@ Here we didn't use any orchestration. In practice we usually do.
 
 * Split the code into logical code blocks
 * Use Mage to orchestrate the execution
+
+### Bonus Ans: [mage-homework](./mage-homework/)
 
 ## Publishing the image to dockerhub
 
