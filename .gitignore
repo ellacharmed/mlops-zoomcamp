@@ -9,8 +9,10 @@
 .venv
 venv
 .idea
+.pixi/*
 
 **data/
+*.parquet
 
 __pycache__/
 **.env
