@@ -6,7 +6,36 @@
   <img src="https://markdown-videos-api.jorgenkh.no/youtube/SQ0jBwd_3kk">
 </a>
 
-
+- we'll be using evidently-ai for ML monitoring
+- Ml models' performance degrade over time, and accuracy metrics start to drift 
+- monitoring for
+  - service health
+    - uptime
+  - data health: quality & integrity
+    - share of missing values
+    - value counts, range, distribution
+    - concept drift
+  - model health
+    - performance: mae, rmse, f1 score, etc
+- segment performance
+- model bias / fairness esp in areas of judicial, finance and health (where a person's life or well-being is at stake)
+- outliers
+- explainability
+- architecturally monitoring split by offline.batch or online/realtime
+- use dashboards tools like Prometheus, Grafana
+- use BI tools like Power BI, Tableau, Looker, etc
+- in batch:
+  - trends from past batch
+  - data distribution
+  - descriptive statistics
+- in non-batch:
+  - descriptive statistics continously or incrementally
+  - use window function and compare windows
+- monitoring scheme:
+  - software services: request <-> response
+  - IO logging
+  - reference data, ground truth via orchestration of monitoring jobs
+  - can store in evals store DB
 
 ## 5.2 Environment setup
 
@@ -14,6 +43,17 @@
   <img src="https://markdown-videos-api.jorgenkh.no/youtube/yixA3C1xSxc">
 </a>
 
+- setup env with python 3.11
+- libraries in [requirement.txt](./requirements.txt); I've update to psycopg2
+- [docker-compose.yml](./docker-compose.yml)
+  - use volumes so our data is persisted
+  - because we have 3 services, we'll also use `docker network` to link up `front-tier` and `back-tier`
+    - postgres DB
+      - name: test
+      - user: postgres
+      - password: example
+    - adminer as UIto access the DB
+    - grafana for dashboards UI
 
 
 ## 5.3 Prepare reference and model
@@ -22,6 +62,14 @@
   <img src="https://markdown-videos-api.jorgenkh.no/youtube/IjNrkqMYQeQ">
 </a>
 
+- ensure we have these folders: `data` & `models`
+- all code in [baseline_model_nyc_taxi_data.ipynb](./baseline_model_nyc_taxi_data.ipynb)
+- in this lesson we are working with
+  - green service type
+  - 2021 Jan as reference and train and val dataset
+  - 2021 Feb as production simulation
+- split the data, fit and pred and then save val data as reference.parquet
+- also save model as lin_reg.bin 
 
 
 ## 5.4 Evidently metrics calculation
@@ -30,6 +78,14 @@
   <img src="https://markdown-videos-api.jorgenkh.no/youtube/kP3lzh_HfWY">
 </a>
 
+- go to evidently documentation for
+  - https://docs.evidentlyai.com/examples
+  - https://docs.evidentlyai.com/user-guide/monitoring
+  - https://docs.evidentlyai.com/reference/all-metrics
+- we derived 3 metrics in our report:
+  1. drift_score
+  1. number_of_drifted_columns
+  1. share_of_missing_values
 
 ## 5.5 Evidently Monitoring Dashboard
 
@@ -37,6 +93,8 @@
   <img src="https://markdown-videos-api.jorgenkh.no/youtube/zjvYhDPzFlY">
 </a>
 
+- we used presets that have pre-baked metrics already calculated
+- 
 
 ## 5.6 Dummy monitoring
 
@@ -129,7 +187,7 @@ python evidently_metrics_calculation.py
 
 This script will simulate batch monitoring. Every 10 seconds it will collect data for a daily batch, calculate metrics and insert them into database. This metrics will be available in Grafana in preconfigured dashboard. 
 
-### Accsess dashboard
+### Access dashboard
 
 - In your browser go to a `localhost:3000`
 The default username and password are `admin`

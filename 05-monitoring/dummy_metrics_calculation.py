@@ -8,6 +8,7 @@ import pandas as pd
 import io
 import psycopg
 
+
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s]: %(message)s")
 
 SEND_TIMEOUT = 10
@@ -24,11 +25,14 @@ create table dummy_metrics(
 """
 
 def prep_db():
-	with psycopg.connect("host=localhost port=5432 user=postgres password=example", autocommit=True) as conn:
-		res = conn.execute("SELECT 1 FROM pg_database WHERE datname='test'")
+	with psycopg.connect("host=localhost user=postgres password=example") as conn:
+		cursor = conn.cursor()  # Create a cursor object
+
+		res = cursor.execute("SELECT 1 FROM pg_database WHERE datname='test'")
+
 		if len(res.fetchall()) == 0:
 			conn.execute("create database test;")
-		with psycopg.connect("host=localhost port=5432 dbname=test user=postgres password=example") as conn:
+		with psycopg.connect("host=localhost dbname=test user=postgres password=example") as conn:
 			conn.execute(create_table_statement)
 
 def calculate_dummy_metrics_postgresql(curr):
