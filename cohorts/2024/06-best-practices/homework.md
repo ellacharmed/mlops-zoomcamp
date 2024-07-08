@@ -1,35 +1,36 @@
 ## Homework
 
-In this homework, we'll take the ride duration prediction model
-that we deployed in batch mode in homework 4 and improve the 
-reliability of our code with unit and integration tests. 
+In this homework, we'll take the ride duration prediction model that we deployed in batch mode in homework 4 and improve the reliability of our code with unit and integration tests. 
 
 You'll find the starter code in the [homework](homework/) directory.
 
 
 ## Q1. Refactoring
 
-Before we can start covering our code with tests, we need to 
-refactor it. We'll start by getting rid of all the global variables. 
+Before we can start covering our code with tests, we need to refactor it. We'll start by getting rid of all the global variables. 
 
-* Let's create a function `main` with two parameters: `year` and
-`month`.
+* Let's create a function `main` with two parameters: `year` and `month`.
 * Move all the code (except `read_data`) inside `main`
 * Make `categorical` a parameter for `read_data` and pass it inside `main`
 
-Now we need to create the "main" block from which we'll invoke
-the main function. How does the `if` statement that we use for
-this looks like? 
+Now we need to create the "main" block from which we'll invoke the main function. How does the `if` statement that we use for this looks like? 
 
 
 Hint: after refactoring, check that the code still works. Just run it e.g. for March 2023 and see if it finishes successfully. 
 
-To make it easier to run it, you can write results to your local
-filesystem. E.g. here:
+To make it easier to run it, you can write results to your local filesystem. E.g. here:
 
 ```python
 output_file = f'taxi_type=yellow_year={year:04d}_month={month:02d}.parquet'
 ```
+
+### A1: 
+
+```
+if __name__ == "__main__":
+    main(year, month)
+```
+
 
 ## Q2. Installing pytest
 
@@ -39,14 +40,13 @@ Now we need to install `pytest`:
 pipenv install --dev pytest
 ```
 
-Next, create a folder `tests` and create two files. One will be
-the file with tests. We can name it `test_batch.py`. 
+Next, create a folder `tests` and create two files. One will be the file with tests. We can name it `test_batch.py`. 
 
 What should be the other file? 
 
-Hint: to be able to test `batch.py`, we need to be able to
-import it. Without this other file, we won't be able to do it.
+Hint: to be able to test `batch.py`, we need to be able to import it. Without this other file, we won't be able to do it.
 
+### A2: `__init__.py`
 
 ## Q3. Writing first unit test
 
@@ -54,15 +54,11 @@ Now let's cover our code with unit tests.
 
 We'll start with the pre-processing logic inside `read_data`.
 
-It's difficult to test right now because first reads
-the file and then performs some transformations. We need to split this 
-code into two parts: reading (I/O) and transformation. 
+It's difficult to test right now because first reads the file and then performs some transformations. We need to split this code into two parts: reading (I/O) and transformation. 
 
-So let's create a function `prepare_data` that takes in a dataframe 
-(and some other parameters too) and applies some transformation to it.
+So let's create a function `prepare_data` that takes in a dataframe (and some other parameters too) and applies some transformation to it.
 
-(That's basically the entire `read_data` function after reading 
-the parquet file)
+(That's basically the entire `read_data` function after reading the parquet file)
 
 Now create a test and use this as input:
 
@@ -96,22 +92,19 @@ The same is true for Pandas Series. Also, a DataFrame could be turned into a lis
 How many rows should be there in the expected dataframe?
 
 * 1
-* 2
+* **2**
 * 3
 * 4
 
+### A3: `2`
 
 ## Q4. Mocking S3 with Localstack 
 
-Now let's prepare for an integration test. In our script, we 
-write data to S3. So we'll use Localstack to mimic S3.
+Now let's prepare for an integration test. In our script, we write data to S3. So we'll use Localstack to mimic S3.
 
-First, let's run Localstack with Docker compose. Let's create a 
-`docker-compose.yaml` file with just one service: localstack. Inside
-localstack, we're only interested in running S3. 
+First, let's run Localstack with Docker compose. Let's create a `docker-compose.yaml` file with just one service: localstack. Inside localstack, we're only interested in running S3. 
 
-Start the service and test it by creating a bucket where we'll
-keep the output. Let's call it "nyc-duration".
+Start the service and test it by creating a bucket where we'll keep the output. Let's call it "nyc-duration".
 
 With AWS CLI, this is how we create a bucket:
 
@@ -129,9 +122,10 @@ In both cases we should adjust commands for localstack. What option do we need t
 
 * `--backend-store-uri`
 * `--profile`
-* `--endpoint-url`
+* **`--endpoint-url`**
 * `--version`
 
+### A4: `--endpoint-url`
 
 ## Make input and output paths configurable
 
@@ -168,13 +162,68 @@ def main(year, month):
     # rest of the main function ... 
 ```
 
+## Using localstack to work with aws s3
+
+### make-bucket
+
+```bash
+aws --endpoint-url=http://localhost:4566 s3 mb s3://nyc-duration
+```
+
+output: ```make_bucket: nyc-duration```
+
+### copy files
+
+Create a file named `dummy.txt` with `this is a test` or some other contents.
+
+```bash
+ aws --endpoint-url=http://localhost:4566 s3 cp dummy.txt s3://nyc-duration
+```
+
+output: `upload: ./dummy.txt to s3://nyc-duration/dummy.txt`
+
+
+### list buckets
+
+```bash
+ aws --endpoint-url=http://localhost:4566 s3 ls
+2024-07-06 12:28:37 nyc-duration
+```
+
+### list bucket's contents
+
+- specifiy bucket-name
+- use flag `--recursive` options if there are folders and subfolders
+
+```bash
+2024-07-06 12:29:40         15 dummy.txt
+ aws --endpoint-url=http://localhost:4566 s3 ls s3://nyc-duration
+```
+
+- output: `2024-07-06 12:29:40         15 dummy.txt`
+
+- if `awslocal` has been installed, can omit the `--endpoint-url=http://localhost:4566` flag and the command is shortened as follows.
+
+    ```bash
+    awslocal s3 ls s3://nyc-duration
+    ```
+
+- if `awslocal` has **not** been installed, but a profile has been configured at `~/.aws/config`, we would still get the same output. But need to include the `--profile` flag with the profile's *name*.
+
+    ```
+    [profile localstack]
+    region=us-east-1
+    output=json
+    endpoint_url = http://localhost:4566
+    ```
+
+    ```bash
+    aws s3 ls s3://nyc-duration --profile localstack
+    ```
 
 ## Reading from Localstack S3 with Pandas
 
-So far we've been reading parquet files from S3 with using
-pandas `read_parquet`. But this way we read it from the
-actual S3 service. Now we need to replace it with our localstack
-one.
+So far we've been reading parquet files from S3 with using pandas `read_parquet`. But this way we read it from the actual S3 service. Now we need to replace it with our localstack one.
 
 For that, we need to specify the endpoint url:
 
@@ -198,16 +247,13 @@ Let's modify our `read_data` function:
 
 Now let's create `integration_test.py`
 
-We'll use the dataframe we created in Q3 (the dataframe for the unit test)
-and save it to S3. You don't need to do anything else: just create a dataframe 
-and save it.
+We'll use the dataframe we created in Q3 (the dataframe for the unit test) and save it to S3. You don't need to do anything else: just create a dataframe and save it.
 
 We will pretend that this is data for January 2023.
 
-Run the `integration_test.py` script. After that, use AWS CLI to verify that the 
-file was created. 
+Run the `integration_test.py` script. After that, use AWS CLI to verify that the file was created. 
 
-Use this snipped for saving the file:
+Use this snippet for saving the file:
 
 ```python
 df_input.to_parquet(
@@ -221,49 +267,76 @@ df_input.to_parquet(
 
 What's the size of the file?
 
-* 3620
+* **3620**
 * 23620
 * 43620
 * 63620
 
-Note: it's important to use the code from the snippet for saving
-the file. Otherwise the size may be different depending on the OS,
-engine and compression. Even if you use this exact snippet, the size
-of your dataframe may still be a bit off. Just select the closest option.
+```bash
+ aws --endpoint-url=http://localhost:4566 s3 ls s3://nyc-duration --recursive
+2024-07-06 12:29:40         15 dummy.txt
+2024-07-06 12:56:52       3620 in/2023-01.parquet
+```
+
+### A5: `3620`
+
+Note: it's important to use the code from the snippet for saving the file. Otherwise the size may be different depending on the OS, engine and compression. Even if you use this exact snippet, the size of your dataframe may still be a bit off. Just select the closest option.
 
 
 ## Q6. Finish the integration test
 
 We can read from our localstack s3, but we also need to write to it.
 
-Create a function `save_data` which works similarly to `read_data`,
-but we use it for saving a dataframe. 
+Create a function `save_data` which works similarly to `read_data`, but we use it for saving a dataframe. 
 
-Let's run the `batch.py` script for January 2023 (the fake data
-we created in Q5). 
+Let's run the `batch.py` script for January 2023 (the fake data we created in Q5). 
 
 We can do that from our integration test in Python: we can use
 `os.system` for doing that (there are other options too). 
 
 Now it saves the result to localstack.
 
-The only thing we need to do now is to read this data and 
-verify the result is correct. 
+The only thing we need to do now is to read this data and verify the result is correct. 
 
 What's the sum of predicted durations for the test dataframe?
 
 * 13.08
-* 36.28
+* **36.28**
 * 69.28
 * 81.08
 
+### run integration_test.py
+
+```bash
+ pipenv run python integration_test.py
+Loading .env environment variables...
+sum of predicted durations for the test dataframe: 36.28
+integration_test.py completes
+```
+
+### A6: `36.28`
 
 ## Running the test (ungraded)
 
-The rest is ready, but we need to write a shell script for doing 
-that. 
+The rest is ready, but we need to write a shell script for doing that. 
 
 Let's do that!
+
+```bash
+ ./run.sh
+[+] Running 2/2
+ ✔ Network homework_default         Created                                 0.0s 
+ ✔ Container homework-localstack-1  St...                                   0.3s 
+Bucket does not exist. Creating bucket...
+make_bucket: nyc-duration
+Bucket nyc-duration created.
+Loading .env environment variables...
+sum of predicted durations for the test dataframe: 36.28
+integration_test.py completes
+[+] Running 2/2
+ ✔ Container homework-localstack-1  Re...                                   4.3s 
+ ✔ Network homework_default         Removed                                 0.3s
+ ```
 
 
 ## Submit the results
