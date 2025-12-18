@@ -74,7 +74,7 @@ is not officially supported in the 2024 edition of the course.
 ## Homework
 
 
-More information [here](../cohorts/2024/05-monitoring/homework.md)
+More information [here](../cohorts/2025/05-monitoring/homework.md)
 
 
 ## Notes
@@ -85,11 +85,17 @@ Did you take notes? Add them here:
 * [week 5: Monitoring notes Ayoub.B](https://github.com/ayoub-berdeddouch/mlops-journey/blob/main/monitoring-05.md)
 * [Week 5: 2023](https://github.com/dimzachar/mlops-zoomcamp/tree/master/notes/Week_5)
 * [Week5: Why we need to monitor models after deployment? by Hongfan (Amber)](https://github.com/Muhongfan/MLops/blob/main/05-monitoring/README.md)
+* [week-5: Detailed Notes about Monitoring, codes and homework by Muhammad Shifa](https://github.com/MuhammadShifa/mlops-zoomcamp2025/blob/main/05-monitoring/README.md)
 * Send a PR, add your notes above this line
 
 
 
 # Monitoring example
+
+## Notes
+There were a massive update for Evidently since 0.7.0 version.
+
+To check working example with Evidently >= 0.7.0 go to `post-evidently-0.7` folder.
 
 ## Prerequisites
 

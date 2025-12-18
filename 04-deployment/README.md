@@ -60,7 +60,7 @@ No video - you already know how to do it:
 
 ## Homework
 
-More information [here](../cohorts/2024/04-deployment/homework.md).
+More information [here](../cohorts/2025/04-deployment/homework.md).
 
 
 ## Notes
@@ -74,4 +74,6 @@ Did you take notes? Add them here:
 * [Week 4: Deployment notes by Waleed](https://github.com/waleedayoub/mlops-zoomcamp/blob/main/cohorts/2023/04-deployment/module4notes.waleed.md)
 * [Week4: Deployment: Offline (Batch), Online (Web service /w MLflow, Streaming) by Hongfan (Amber)](https://github.com/Muhongfan/MLops/blob/main/04-deployment/README.md)
 * [Week 4: Deployment Notes - Marcus](https://github.com/mleiwe/mlops-zoomcamp/blob/NotesBranch/cohorts/2024/04-deployment/Ch4_Notes_ML.md)
+* [Cohort 2025| ML model deployment notes by Nitin Gupta](https://github.com/niting9881/course-mlops-zoomcamp/blob/main/04-deployment/README.md)
+* [week-4: Detailed notes on deployment,streaming module,notes,codes and homework by Muhammad Shifa](https://github.com/MuhammadShifa/mlops-zoomcamp2025/blob/main/04-deployment/README.md)
 * Send a PR, add your notes above this line

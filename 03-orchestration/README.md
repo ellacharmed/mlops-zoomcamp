@@ -1,38 +1,127 @@
 # 3. Orchestration and ML Pipelines
 
-## [3.0 Introduction: ML pipelines and Mage](3.0/README.md)
+## 3.1 Introduction to ML Pipelines
 
-## [3.1 Data preparation: ETL and feature engineering](3.1/README.md)
+<a href="https://www.youtube.com/watch?v=uAR4BhVCNbI&list=PL3MmuxUbc_hIUISrluw_A7wDSmfOhErJK">
+  <img src="https://markdown-videos-api.jorgenkh.no/youtube/uAR4BhVCNbI">
+</a>
 
-## [3.2 Training: sklearn models and XGBoost](3.2/README.md)
+## 3.2 Turning the Notebook into a Python Script
 
-## [3.3 Observability: Monitoring and alerting](3.3/README.md)
+<a href="https://www.youtube.com/watch?v=3_Uu0rInxWI&list=PL3MmuxUbc_hIUISrluw_A7wDSmfOhErJK">
+  <img src="https://markdown-videos-api.jorgenkh.no/youtube/3_Uu0rInxWI">
+</a>
 
-## [3.4 Triggering: Inference and retraining](3.4/README.md)
+## 3.3 Using an Orchestrator
 
-## [3.5 Deploying: Running operations in production](3.5/README.md)
+Now that we converted the notebook into a python script, we 
+can use an orchestrator to turn the script into a production
+pipeline.
 
-## [3.6 Homework](../cohorts/2024/03-orchestration/homework.md).
+There's no video for this unit, but you can use ChatGPT to help you with this.
 
-## Quickstart
+### Step 1: Choosing the Tool
 
-See the [Unit 3.0](https://github.com/DataTalksClub/mlops-zoomcamp/blob/main/03-orchestration/3.0/README.md) for a Quick Start guide
+For that you first need to choose an orchestrator. For example:
 
-## Need help?
+- Airflow
+- Prefect
+- Dagster
+- Kestra
+- Mage
+- or some other tool
 
-1. [Developer documentation](https://docs.mage.ai/introduction/overview)
-1. [AI chat bot](https://mageai.slack.com/archives/C05NYC4DADT)
-1. Live chat with the [Mage team directly](https://mage.ai/chat)
+### Step 2: Running the Tool
 
+* Configure the tool to run locally 
+* Run the simplest "hello world" workflow 
+
+### Step 3: Orchestrating the Workflow
+
+* Get the code from the previous unit (see [code](code/))
+* Use the tool to orchestrate the steps in the pipeline
+
+### Step 4: Parametrizing the Workflow
+
+* Schedule the workflow to run monthly
+* The train data should be from two months ago
+* The validation data - one month ago
+
+### Step 5: Backfilling
+
+* Learn to run the workflow for some of the past months
+
+### Step 6: Deployment (optional)
+
+* Learn to deploy the tool to the cloud 
+
+### Resources 
+
+For guidance, you can refer to past cohorts of the course:
+
+- Prefect - 2022 and 2023
+- Mage - 2024
+
+You can also rely on ChatGPT or similar tools. They are very helpful.
+
+## 3.4 Homework
+
+More information [here](../cohorts/2025/03-orchestration/homework.md).
+
+
+## Resources
+
+### Mlflow
+
+If you want to run MLFlow with Docker, you can do this:
+
+Create a dockerfile for mlflow, e.g. `mlflow.dockerfile`:
+
+```dockerfile
+FROM python:3.10-slim
+
+RUN pip install mlflow==2.12.1
+
+EXPOSE 5000
+
+CMD [ \
+    "mlflow", "server", \
+    "--backend-store-uri", "sqlite:///home/mlflow_data/mlflow.db", \
+    "--host", "0.0.0.0", \
+    "--port", "5000" \
+]
+```
+
+Add it to the docker-compose.yaml:
+
+```yaml
+  mlflow:
+    build:
+      context: .
+      dockerfile: mlflow.dockerfile
+    ports:
+      - "5000:5000"
+    volumes:
+      - "${PWD}/mlflow_data:/home/mlflow_data/"
+```
+
+In your code, make sure you use the same version of mlflow (`mlflow==2.12.1`).
+
+When you run it, mlflow should be accessible at `http://mlflow:5000`.
 
 ## Notes
-
-Did you take notes? Add them here:
-
-* [Marcus' Notes for Ch3](https://github.com/mleiwe/mlops-zoomcamp/blob/Ch3_ML_Notes/cohorts/2024/03-orchestration/ML_Notes.md)
-* Send a PR, add your notes above this line
 
 ### Notes previous editions
 
 - [2022 Prefect notes](../cohorts/2022/03-orchestration/README.md)
 - [2023 Prefect notes](../cohorts/2023/03-orchestration/prefect/README.md)
+- [2024 Mage notes](../cohorts/2024/03-orchestration/README.md)
+
+### Notes 2025
+
+Did you take notes? Add them here:
+
+* [2025 Cohort | Running Airflow + MLflow using Docker by André Calatré](https://github.com/calatre/mlops-zoomcamp/tree/main/03-orchestration)
+* [Week 3 - workflow orchestration & Prefect by hannarud](https://github.com/hannarud/mlops-zoomcamp-2025/blob/main/week3_notes.md)
+* [Orchestration with Prefect Notes and Code by Muhammad Shifa](https://github.com/MuhammadShifa/mlops-zoomcamp2025/blob/main/03-orchestration/README.md)
+* Send a PR, add your notes above this line
